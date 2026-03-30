@@ -1,134 +1,898 @@
 "use client";
 
-import React, { useState } from "react";
-import {
-  Smartphone,
-  Globe,
-  ShoppingCart,
-  BarChart3,
-} from "lucide-react";
+import React, { useMemo, useState } from "react";
 
-function Button({ children, onClick }) {
+function Button({
+  children,
+  onClick,
+  href,
+  variant = "primary",
+  className = "",
+  type = "button",
+}) {
+  const base =
+    "inline-flex items-center justify-center rounded-2xl px-6 py-3 text-sm font-semibold transition duration-200";
+  const styles =
+    variant === "secondary"
+      ? "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
+      : "bg-violet-600 text-white shadow-lg shadow-violet-200 hover:bg-violet-700";
+
+  if (href) {
+    return (
+      <a href={href} className={`${base} ${styles} ${className}`}>
+        {children}
+      </a>
+    );
+  }
+
   return (
     <button
+      type={type}
       onClick={onClick}
-      className="rounded-xl bg-violet-600 px-6 py-3 font-semibold text-white transition hover:bg-violet-700"
+      className={`${base} ${styles} ${className}`}
     >
       {children}
     </button>
   );
 }
 
-function Card({ children }) {
+function Card({ children, className = "" }) {
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+    <div
+      className={`rounded-[28px] border border-slate-200 bg-white shadow-sm ${className}`}
+    >
       {children}
+    </div>
+  );
+}
+
+function SectionTitle({ eyebrow, title, text, center = false }) {
+  return (
+    <div className={center ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}>
+      {eyebrow ? (
+        <div className="text-sm font-semibold uppercase tracking-[0.22em] text-violet-600">
+          {eyebrow}
+        </div>
+      ) : null}
+      <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+        {title}
+      </h2>
+      {text ? (
+        <p className="mt-4 text-base leading-8 text-slate-600">{text}</p>
+      ) : null}
+    </div>
+  );
+}
+
+function PhoneMockup({ compact = false, label = "App Preview" }) {
+  return (
+    <div className={`relative mx-auto ${compact ? "w-[220px]" : "w-[310px]"}`}>
+      <div className="rounded-[42px] border border-violet-100 bg-[#101114] p-2 shadow-[0_30px_80px_rgba(76,29,149,0.25)]">
+        <div
+          className={`relative overflow-hidden rounded-[34px] bg-white ${
+            compact ? "h-[440px]" : "h-[620px]"
+          }`}
+        >
+          <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-r from-violet-600 via-fuchsia-500 to-orange-400" />
+          <div className="absolute left-1/2 top-3 h-6 w-28 -translate-x-1/2 rounded-full bg-black/90" />
+
+          <div className="relative z-10 px-5 pt-16">
+            <div className="rounded-3xl bg-white/95 p-4 shadow-sm ring-1 ring-slate-100">
+              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-violet-600">
+                Restone App
+              </div>
+              <div className="mt-2 text-xl font-bold text-slate-900">
+                {label}
+              </div>
+              <div className="mt-1 text-sm text-slate-500">
+                Fast ordering experience for your restaurant.
+              </div>
+            </div>
+
+            <div className="mt-5 grid grid-cols-2 gap-3">
+              <div className="rounded-2xl bg-violet-50 p-4">
+                <div className="text-xs text-slate-500">Today</div>
+                <div className="mt-1 text-lg font-bold text-slate-900">
+                  24 orders
+                </div>
+              </div>
+              <div className="rounded-2xl bg-orange-50 p-4">
+                <div className="text-xs text-slate-500">Revenue</div>
+                <div className="mt-1 text-lg font-bold text-slate-900">
+                  €184
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-5 space-y-3">
+              {[
+                { name: "Burger Menu", price: "€9.90" },
+                { name: "Pizza Specials", price: "€12.50" },
+                { name: "Lunch Combo", price: "€8.40" },
+              ].map((item) => (
+                <div
+                  key={item.name}
+                  className="flex items-center justify-between rounded-2xl border border-slate-100 bg-white p-4 shadow-sm"
+                >
+                  <div>
+                    <div className="font-semibold text-slate-900">
+                      {item.name}
+                    </div>
+                    <div className="text-sm text-slate-500">Direct order</div>
+                  </div>
+                  <div className="rounded-xl bg-slate-100 px-3 py-1 text-sm font-semibold text-slate-700">
+                    {item.price}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FloatingBadge({ children, className = "" }) {
+  return (
+    <div
+      className={`rounded-2xl border border-white/70 bg-white/95 px-4 py-3 text-sm font-semibold text-slate-800 shadow-xl backdrop-blur ${className}`}
+    >
+      {children}
+    </div>
+  );
+}
+
+function FeatureCard({ emoji, title, text }) {
+  return (
+    <Card className="p-6">
+      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-100 to-fuchsia-100 text-2xl">
+        {emoji}
+      </div>
+      <h3 className="mt-4 text-lg font-bold text-slate-900">{title}</h3>
+      <p className="mt-2 text-sm leading-7 text-slate-600">{text}</p>
+    </Card>
+  );
+}
+
+function PricingCard({ name, price, subtitle, features, featured = false }) {
+  return (
+    <Card
+      className={`p-8 ${
+        featured
+          ? "border-violet-300 bg-gradient-to-b from-violet-50 to-white shadow-violet-100"
+          : ""
+      }`}
+    >
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <div className="text-xl font-bold text-slate-900">{name}</div>
+          <div className="mt-2 text-4xl font-extrabold tracking-tight text-violet-700">
+            {price}
+          </div>
+          <div className="mt-2 text-sm text-slate-500">{subtitle}</div>
+        </div>
+        {featured ? (
+          <div className="rounded-full bg-violet-600 px-3 py-1 text-xs font-semibold text-white">
+            Най-популярен
+          </div>
+        ) : null}
+      </div>
+      <div className="mt-6 space-y-3">
+        {features.map((item) => (
+          <div key={item} className="flex items-start gap-3 text-sm text-slate-700">
+            <span className="mt-0.5">✅</span>
+            <span>{item}</span>
+          </div>
+        ))}
+      </div>
+      <Button href="#contact" className="mt-8 w-full justify-center">
+        Избери план
+      </Button>
+    </Card>
+  );
+}
+
+function FaqItem({ question, answer, open, onClick }) {
+  return (
+    <div className="rounded-[24px] border border-slate-200 bg-white shadow-sm">
+      <button
+        type="button"
+        onClick={onClick}
+        className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
+      >
+        <span className="text-base font-semibold text-slate-900">
+          {question}
+        </span>
+        <span
+          className={`text-lg text-violet-600 transition ${
+            open ? "rotate-180" : ""
+          }`}
+        >
+          ⌄
+        </span>
+      </button>
+      {open ? (
+        <div className="px-6 pb-6 text-sm leading-7 text-slate-600">
+          {answer}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function ContactForm() {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+  const [status, setStatus] = useState("idle");
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    if (!form.name || !form.email) {
+      setStatus("error");
+      return;
+    }
+
+    setStatus("loading");
+    await new Promise((resolve) => setTimeout(resolve, 700));
+    setStatus("success");
+    setForm({ name: "", email: "", phone: "", message: "" });
+  }
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="rounded-[28px] bg-gradient-to-br from-violet-50 via-fuchsia-50 to-orange-50 p-6 sm:p-7"
+    >
+      <div className="text-xl font-bold text-slate-900">
+        Заяви безплатна консултация
+      </div>
+
+      <div className="mt-5 space-y-3">
+        <input
+          name="name"
+          value={form.name}
+          onChange={handleChange}
+          placeholder="Име на ресторант"
+          className="w-full rounded-2xl border border-white bg-white px-4 py-3 text-sm text-slate-700 shadow-sm outline-none placeholder:text-slate-400"
+        />
+        <input
+          name="email"
+          value={form.email}
+          onChange={handleChange}
+          placeholder="Имейл"
+          className="w-full rounded-2xl border border-white bg-white px-4 py-3 text-sm text-slate-700 shadow-sm outline-none placeholder:text-slate-400"
+        />
+        <input
+          name="phone"
+          value={form.phone}
+          onChange={handleChange}
+          placeholder="Телефон"
+          className="w-full rounded-2xl border border-white bg-white px-4 py-3 text-sm text-slate-700 shadow-sm outline-none placeholder:text-slate-400"
+        />
+        <textarea
+          name="message"
+          value={form.message}
+          onChange={handleChange}
+          rows={4}
+          placeholder="С какво можем да помогнем?"
+          className="w-full rounded-2xl border border-white bg-white px-4 py-3 text-sm text-slate-700 shadow-sm outline-none placeholder:text-slate-400"
+        />
+      </div>
+
+      <Button type="submit" className="mt-5 w-full justify-center">
+        {status === "loading" ? "Изпращане..." : "Изпрати запитване"}
+      </Button>
+
+      <div className="mt-4 text-sm">
+        {status === "success" ? (
+          <span className="text-green-600">
+            Запитването е изпратено успешно.
+          </span>
+        ) : null}
+        {status === "error" ? (
+          <span className="text-red-600">
+            Моля, попълни име и имейл.
+          </span>
+        ) : null}
+      </div>
+    </form>
+  );
+}
+
+function AdminView({ onBack }) {
+  const [tab, setTab] = useState("leads");
+
+  const leads = [
+    {
+      restaurant: "Burger House Plovdiv",
+      contact: "nikolay@burgerhouse.bg",
+      plan: "Standard",
+      status: "Ново",
+    },
+    {
+      restaurant: "Pizza Roma",
+      contact: "maria@pizzaroma.bg",
+      plan: "Premium",
+      status: "Контактуван",
+    },
+    {
+      restaurant: "Green Bowl",
+      contact: "office@greenbowl.bg",
+      plan: "Basic",
+      status: "Демо",
+    },
+  ];
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      <div className="mx-auto max-w-7xl px-6 py-10">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <div className="text-sm font-semibold uppercase tracking-[0.22em] text-violet-600">
+              Restone Admin
+            </div>
+            <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900">
+              Dashboard
+            </h1>
+            <p className="mt-2 text-slate-500">
+              Управление на запитвания, клиенти и плащания.
+            </p>
+          </div>
+          <Button onClick={onBack} variant="secondary">
+            Назад към сайта
+          </Button>
+        </div>
+
+        <div className="mt-8 grid gap-5 md:grid-cols-4">
+          {[
+            { label: "Нови запитвания", value: "24" },
+            { label: "Насрочени демота", value: "11" },
+            { label: "Активни клиенти", value: "18" },
+            { label: "Месечен приход", value: "€1,842" },
+          ].map((item) => (
+            <Card key={item.label} className="p-6">
+              <div className="text-sm text-slate-500">{item.label}</div>
+              <div className="mt-3 text-3xl font-extrabold text-slate-900">
+                {item.value}
+              </div>
+            </Card>
+          ))}
+        </div>
+
+        <div className="mt-8 inline-flex rounded-2xl bg-white p-1 shadow-sm">
+          {[
+            ["leads", "Lead-ове"],
+            ["clients", "Клиенти"],
+            ["billing", "Плащания"],
+          ].map(([value, label]) => (
+            <button
+              key={value}
+              onClick={() => setTab(value)}
+              className={`rounded-xl px-4 py-2 text-sm font-medium ${
+                tab === value ? "bg-slate-100 text-slate-900" : "text-slate-600"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {tab === "leads" ? (
+          <Card className="mt-6 overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="min-w-full text-left text-sm">
+                <thead className="bg-slate-50 text-slate-500">
+                  <tr>
+                    <th className="px-6 py-4">Ресторант</th>
+                    <th className="px-6 py-4">Контакт</th>
+                    <th className="px-6 py-4">План</th>
+                    <th className="px-6 py-4">Статус</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {leads.map((lead) => (
+                    <tr
+                      key={lead.restaurant}
+                      className="border-t border-slate-100"
+                    >
+                      <td className="px-6 py-4 font-semibold text-slate-900">
+                        {lead.restaurant}
+                      </td>
+                      <td className="px-6 py-4 text-slate-600">
+                        {lead.contact}
+                      </td>
+                      <td className="px-6 py-4 text-slate-600">{lead.plan}</td>
+                      <td className="px-6 py-4">
+                        <span className="rounded-full bg-violet-100 px-3 py-1 text-xs font-semibold text-violet-700">
+                          {lead.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Card>
+        ) : null}
+
+        {tab === "clients" ? (
+          <div className="mt-6 grid gap-5 md:grid-cols-3">
+            {[
+              "Pizza Roma — Premium",
+              "Burger House — Standard",
+              "Green Bowl — Basic",
+            ].map((client) => (
+              <Card key={client} className="p-6">
+                <div className="text-lg font-bold text-slate-900">{client}</div>
+                <div className="mt-2 text-sm text-slate-500">
+                  Активен клиент с onboarding статус.
+                </div>
+              </Card>
+            ))}
+          </div>
+        ) : null}
+
+        {tab === "billing" ? (
+          <div className="mt-6 grid gap-5 md:grid-cols-3">
+            {[
+              { label: "MRR", value: "€1,842" },
+              { label: "Чакащи плащания", value: "4" },
+              { label: "Платени абонаменти", value: "14" },
+            ].map((item) => (
+              <Card key={item.label} className="p-6">
+                <div className="text-sm text-slate-500">{item.label}</div>
+                <div className="mt-2 text-3xl font-extrabold text-slate-900">
+                  {item.value}
+                </div>
+              </Card>
+            ))}
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 }
 
 export default function RestoneApp() {
   const [view, setView] = useState("landing");
+  const [productTab, setProductTab] = useState(0);
+  const [faqOpen, setFaqOpen] = useState(0);
+
+  const productTabs = useMemo(
+    () => [
+      {
+        label: "Онлайн поръчки",
+        title: "Директни поръчки от твоя бранд",
+        text:
+          "Клиентите поръчват директно през твоя сайт и приложение, без marketplace комисионни и без посредници.",
+        bullets: ["0% комисионни", "Delivery и pickup", "Бърз checkout"],
+      },
+      {
+        label: "Уебсайт",
+        title: "Сайт, който продава",
+        text:
+          "Модерен ordering website с меню, категории, промоции и ясни CTA бутони за повече директни продажби.",
+        bullets: [
+          "Мобилен first дизайн",
+          "Меню и добавки",
+          "Промоции и банери",
+        ],
+      },
+      {
+        label: "Приложение",
+        title: "Собствен app за ресторанта",
+        text:
+          "Силно брандирано приложение за по-бързи повторни поръчки и по-добра връзка с клиента.",
+        bullets: ["iOS + Android", "Push комуникация", "Loyalty потенциал"],
+      },
+    ],
+    []
+  );
+
+  const faqs = useMemo(
+    () => [
+      {
+        q: "Има ли комисионна за поръчките?",
+        a: "Не. Restone е създадено за директни поръчки без marketplace комисионни към всяка продажба.",
+      },
+      {
+        q: "Може ли ресторантът да има собствено приложение?",
+        a: "Да. В зависимост от плана приложението може да бъде add-on или включено в по-висок пакет.",
+      },
+      {
+        q: "Подходящо ли е и за единични обекти, и за вериги?",
+        a: "Да. Подходящо е както за единични ресторанти, така и за по-активни обекти и вериги.",
+      },
+    ],
+    []
+  );
 
   if (view === "admin") {
-    return (
-      <div className="p-10">
-        <h1 className="mb-4 text-3xl font-bold">Admin Dashboard</h1>
-        <p className="mb-6">Тук ще виждаш запитвания и клиенти (предстои).</p>
-        <Button onClick={() => setView("landing")}>Назад към сайта</Button>
-      </div>
-    );
+    return <AdminView onBack={() => setView("landing")} />;
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-violet-50">
-      <header className="mx-auto flex max-w-6xl items-center justify-between p-6">
-        <h1 className="text-2xl font-bold text-violet-700">restone.bg</h1>
-        <Button onClick={() => setView("admin")}>Admin</Button>
+    <div id="top" className="min-h-screen bg-white text-slate-900">
+      <div className="fixed right-4 top-4 z-50 flex items-center gap-2 rounded-2xl border border-white/70 bg-white/90 p-2 shadow-xl backdrop-blur">
+        <button className="rounded-xl bg-slate-100 px-3 py-2 text-sm font-semibold text-slate-700">
+          BG
+        </button>
+        <button className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-900 shadow">
+          🌐 Сайт
+        </button>
+        <button
+          onClick={() => setView("admin")}
+          className="rounded-xl px-4 py-2 text-sm font-semibold text-slate-600"
+        >
+          ⚙️ Админ
+        </button>
+      </div>
+
+      <header className="sticky top-0 z-40 border-b border-violet-100 bg-white/80 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+          <div className="text-2xl font-extrabold tracking-tight text-violet-700">
+            restone.bg
+          </div>
+
+          <nav className="hidden items-center gap-8 text-sm text-slate-600 lg:flex">
+            <a href="#features" className="hover:text-violet-600">
+              Функции
+            </a>
+            <a href="#products" className="hover:text-violet-600">
+              Продукти
+            </a>
+            <a href="#pricing" className="hover:text-violet-600">
+              Цени
+            </a>
+            <a href="#faq" className="hover:text-violet-600">
+              Въпроси
+            </a>
+            <a href="#contact" className="hover:text-violet-600">
+              Контакт
+            </a>
+          </nav>
+
+          <Button href="#contact">Заяви демо</Button>
+        </div>
       </header>
 
-      <section className="px-6 py-20 text-center">
-        <h2 className="mb-4 text-4xl font-bold">
-          Собствено приложение и уебсайт за твоето заведение
-        </h2>
-        <p className="mb-8 text-lg text-gray-600">
-          Приемай директни поръчки без комисионни и увеличи печалбата си.
-        </p>
-
-        <div className="flex justify-center gap-4">
-          <Button>Заяви демо</Button>
-          <Button>Свържи се с нас</Button>
-        </div>
-
-        <div className="mt-16 flex justify-center">
-          <div className="h-[560px] w-[280px] rounded-[40px] bg-black p-2 shadow-xl">
-            <div className="flex h-full w-full items-center justify-center rounded-[32px] bg-white text-gray-400">
-              App Preview
+      <section className="relative overflow-hidden bg-gradient-to-br from-white via-violet-50 to-fuchsia-50">
+        <div className="mx-auto grid max-w-7xl items-center gap-14 px-6 py-20 lg:grid-cols-2 lg:py-28">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white px-4 py-2 text-sm font-semibold text-violet-700 shadow-sm">
+              ✨ Онлайн поръчки за ресторанти без посредници
             </div>
+
+            <h1 className="mt-6 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+              Онлайн поръчки без комисионни
+              <span className="block bg-gradient-to-r from-violet-700 via-fuchsia-600 to-orange-400 bg-clip-text text-transparent">
+                собствено приложение и уебсайт за твоето заведение
+              </span>
+            </h1>
+
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
+              Restone помага на ресторанти да приемат директни поръчки от
+              собствен сайт и мобилно приложение, без комисионни към външни
+              delivery платформи.
+            </p>
+
+            <div className="mt-8 grid gap-3 sm:grid-cols-2">
+              {[
+                "0% комисионна към delivery apps",
+                "Собствен бранд и директна връзка с клиента",
+                "Мобилно приложение за iOS и Android",
+                "Уебсайт, checkout и меню в една система",
+              ].map((item) => (
+                <div
+                  key={item}
+                  className="flex items-start gap-3 rounded-2xl border border-white/70 bg-white/80 p-4 shadow-sm"
+                >
+                  <span className="mt-0.5">✅</span>
+                  <span className="text-sm text-slate-700">{item}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+              <Button href="#contact">Заяви демо →</Button>
+              <Button href="#products" variant="secondary">
+                Виж платформата
+              </Button>
+            </div>
+
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <div className="rounded-2xl bg-black px-4 py-3 text-white shadow-lg">
+                <div className="text-[10px] uppercase tracking-wide text-white/60">
+                  Download on the
+                </div>
+                <div className="text-sm font-semibold">App Store</div>
+              </div>
+              <div className="rounded-2xl bg-black px-4 py-3 text-white shadow-lg">
+                <div className="text-[10px] uppercase tracking-wide text-white/60">
+                  Get it on
+                </div>
+                <div className="text-sm font-semibold">Google Play</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="relative">
+            <FloatingBadge className="absolute -left-4 top-16 hidden md:block">
+              🚀 Директни поръчки без комисионни
+            </FloatingBadge>
+            <FloatingBadge className="absolute -right-6 top-24 hidden md:block">
+              📱 App Store + Google Play
+            </FloatingBadge>
+            <FloatingBadge className="absolute -left-10 bottom-10 hidden md:block">
+              🌐 Ordering website
+            </FloatingBadge>
+            <PhoneMockup label="Restaurant App" />
           </div>
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-6xl gap-6 px-6 py-20 md:grid-cols-4">
-        <Card>
-          <Smartphone className="mb-4 text-violet-600" />
-          <h3 className="font-bold">Мобилно приложение</h3>
-          <p className="text-sm text-gray-600">Собствен app за твоите клиенти</p>
-        </Card>
-
-        <Card>
-          <Globe className="mb-4 text-violet-600" />
-          <h3 className="font-bold">Уебсайт</h3>
-          <p className="text-sm text-gray-600">Онлайн поръчки без комисионни</p>
-        </Card>
-
-        <Card>
-          <ShoppingCart className="mb-4 text-violet-600" />
-          <h3 className="font-bold">Поръчки</h3>
-          <p className="text-sm text-gray-600">Управление на всички поръчки</p>
-        </Card>
-
-        <Card>
-          <BarChart3 className="mb-4 text-violet-600" />
-          <h3 className="font-bold">Анализи</h3>
-          <p className="text-sm text-gray-600">Следи продажбите си</p>
-        </Card>
+      <section className="mx-auto max-w-7xl px-6 py-10">
+        <div className="grid gap-5 md:grid-cols-3">
+          {[
+            "Твоят бранд на преден план",
+            "Истинско приложение за ресторанта",
+            "Визия, създадена за поръчки",
+          ].map((title, index) => (
+            <Card key={index} className="overflow-hidden">
+              <div className="relative h-80 bg-gradient-to-br from-violet-100 via-white to-orange-100">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(139,92,246,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(251,146,60,0.18),transparent_30%)]" />
+                <div className="absolute inset-x-0 bottom-0 p-5">
+                  <div className="rounded-2xl border border-white/40 bg-white/80 px-4 py-3 text-sm font-semibold text-slate-900 backdrop-blur">
+                    {title}
+                  </div>
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
       </section>
 
-      <section className="bg-white px-6 py-20">
-        <h2 className="mb-10 text-center text-3xl font-bold">Цени</h2>
+      <section className="mx-auto max-w-5xl px-6 py-20">
+        <SectionTitle
+          eyebrow="Бърз старт. Нулев риск."
+          title="Стартирай за минути"
+          text="Ние ще ти помогнем да стартираш гладко, без излишни усложнения и без риск в началото."
+        />
 
-        <div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-3">
-          <Card>
-            <h3 className="mb-2 text-xl font-bold">Basic</h3>
-            <p className="mb-4 text-2xl font-bold">€29 / месец</p>
-            <Button>Избери</Button>
-          </Card>
+        <div className="mt-8 space-y-5 text-lg leading-8 text-slate-600">
+          {[
+            "Нямаш време? Ние ще настроим всичко вместо теб — безплатна начална настройка.",
+            "7 дни поддръжка чрез чат и имейл — преди и след старта.",
+            "Реални хора на линия — без ботове.",
+            "Лесно onboarding обучение за твоя екип.",
+            "Пробен период — тествай без риск.",
+          ].map((item) => (
+            <div key={item} className="flex items-start gap-4">
+              <span className="mt-1">✅</span>
+              <p>{item}</p>
+            </div>
+          ))}
+        </div>
 
-          <Card>
-            <h3 className="mb-2 text-xl font-bold">Pro</h3>
-            <p className="mb-4 text-2xl font-bold">€59 / месец</p>
-            <Button>Избери</Button>
-          </Card>
+        <Button href="#contact" className="mt-8">
+          Започни сега
+        </Button>
+      </section>
 
-          <Card>
-            <h3 className="mb-2 text-xl font-bold">Enterprise</h3>
-            <p className="mb-4 text-2xl font-bold">По запитване</p>
-            <Button>Контакт</Button>
+      <section id="features" className="mx-auto max-w-7xl px-6 py-16">
+        <SectionTitle
+          eyebrow="Функции"
+          title="Всичко, което ресторантът ти трябва, за да продава по-добре онлайн"
+          text="Платформа за директни онлайн поръчки, брандиран сайт, приложение и по-добър контрол върху клиента."
+        />
+
+        <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          <FeatureCard
+            emoji="🛒"
+            title="Поръчки без комисионни"
+            text="Приемай директни онлайн поръчки от твоя собствен канал вместо да губиш марж в marketplace такси."
+          />
+          <FeatureCard
+            emoji="🌐"
+            title="Собствен ordering website"
+            text="Професионален ресторантски сайт с меню, промоции, checkout, pickup и delivery flow."
+          />
+          <FeatureCard
+            emoji="📱"
+            title="Брандирано мобилно приложение"
+            text="Собствен app за iOS и Android за повторни поръчки, loyalty и силна връзка с клиента."
+          />
+          <FeatureCard
+            emoji="📈"
+            title="Маркетинг и retention"
+            text="Промо кодове, кампании, CRM и по-добър контрол върху повторните поръчки."
+          />
+          <FeatureCard
+            emoji="💳"
+            title="Плащания и фактуриране"
+            text="Готово за абонаменти, checkout и бъдещо автоматизирано billing решение."
+          />
+          <FeatureCard
+            emoji="👥"
+            title="Контрол върху клиента"
+            text="Запази клиентските данни, навици и канали за комуникация във вашата система."
+          />
+        </div>
+      </section>
+
+      <section id="products" className="mx-auto max-w-7xl px-6 py-20">
+        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+          <div>
+            <SectionTitle
+              eyebrow="Продукти"
+              title="Всичко в една платформа"
+              text="Уебсайт, приложение и директни поръчки в един ясен продукт."
+            />
+
+            <div className="mt-6 space-y-2">
+              {productTabs.map((tab, i) => (
+                <button
+                  key={tab.label}
+                  type="button"
+                  onClick={() => setProductTab(i)}
+                  className={`w-full rounded-xl px-4 py-3 text-left text-sm font-semibold transition ${
+                    productTab === i
+                      ? "bg-violet-600 text-white shadow-sm"
+                      : "bg-white text-slate-700 hover:bg-violet-50"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <Card className="border-violet-100 p-8">
+            <h3 className="text-2xl font-bold text-slate-900">
+              {productTabs[productTab].title}
+            </h3>
+            <p className="mt-4 text-slate-600">
+              {productTabs[productTab].text}
+            </p>
+
+            <div className="mt-6 rounded-[28px] bg-gradient-to-br from-violet-50 via-pink-50 to-orange-50 p-5">
+              <PhoneMockup compact label={productTabs[productTab].label} />
+            </div>
+
+            <div className="mt-6 space-y-3">
+              {productTabs[productTab].bullets.map((bullet) => (
+                <div
+                  key={bullet}
+                  className="flex items-center gap-3 text-sm text-slate-700"
+                >
+                  <span>✅</span>
+                  <span>{bullet}</span>
+                </div>
+              ))}
+            </div>
           </Card>
         </div>
       </section>
 
-      <section className="py-20 text-center">
-        <h2 className="mb-4 text-3xl font-bold">Свържи се с нас</h2>
-        <p className="mb-6 text-gray-600">
-          Ще ти помогнем да стартираш още днес
-        </p>
-        <Button>Изпрати запитване</Button>
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="grid gap-5 lg:grid-cols-3">
+          {[
+            "Поръчките вече идват директно през нашия сайт и задържаме повече от всяка продажба.",
+            "Когато сайтът и приложението са брандирани правилно, клиентите се връщат много по-често.",
+            "Най-голямата разлика е контролът върху клиента и липсата на комисионни.",
+          ].map((quote, index) => (
+            <Card key={index} className="p-6">
+              <div className="text-lg">⭐</div>
+              <p className="mt-4 text-lg leading-8 text-slate-700">
+                “{quote}”
+              </p>
+              <div className="mt-4 text-sm text-slate-500">Ресторантьор</div>
+            </Card>
+          ))}
+        </div>
       </section>
 
-      <footer className="py-10 text-center text-gray-500">
-        © 2026 restone.bg
+      <section id="pricing" className="mx-auto max-w-7xl px-6 py-20">
+        <SectionTitle
+          eyebrow="Цени"
+          title="Планове за ресторанти, които искат повече директни поръчки"
+          text="Без комисионни. Фиксиран месечен план. По-голям контрол върху продажбите."
+          center
+        />
+
+        <div className="mt-10 grid gap-6 lg:grid-cols-3">
+          <PricingCard
+            name="Basic"
+            price="€49"
+            subtitle="До 75 поръчки"
+            features={[
+              "Собствен ordering website",
+              "Меню и checkout",
+              "Поръчки без комисионни",
+            ]}
+          />
+          <PricingCard
+            name="Standard"
+            price="€89"
+            subtitle="До 210 поръчки"
+            featured
+            features={[
+              "Всичко от Basic",
+              "Маркетинг и loyalty",
+              "По-силен direct ordering канал",
+            ]}
+          />
+          <PricingCard
+            name="Premium"
+            price="€169"
+            subtitle="Неограничени поръчки"
+            features={[
+              "Всичко от Standard",
+              "Неограничен обем",
+              "Подходящо за растеж и вериги",
+            ]}
+          />
+        </div>
+      </section>
+
+      <section id="faq" className="mx-auto max-w-7xl px-6 py-16">
+        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+          <SectionTitle
+            eyebrow="FAQ"
+            title="Често задавани въпроси"
+            text="Най-важното за платформата, поръчките и пакетите."
+          />
+
+          <div className="space-y-4">
+            {faqs.map((item, index) => (
+              <FaqItem
+                key={item.q}
+                question={item.q}
+                answer={item.a}
+                open={faqOpen === index}
+                onClick={() => setFaqOpen(faqOpen === index ? -1 : index)}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" className="mx-auto max-w-7xl px-6 pb-24 pt-12">
+        <div className="rounded-[32px] border border-violet-100 bg-white p-8 shadow-xl lg:p-10">
+          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+            <SectionTitle
+              eyebrow="Контакт"
+              title="Свържи се с нас"
+              text="Ще ти покажем как Restone може да работи за твоето заведение и как да увеличиш директните си поръчки."
+            />
+            <ContactForm />
+          </div>
+        </div>
+      </section>
+
+      <footer className="border-t border-slate-100 px-6 py-10">
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <div className="text-xl font-extrabold text-violet-700">
+              restone.bg
+            </div>
+            <div className="mt-1 text-sm text-slate-500">
+              Commission-free ordering website + restaurant app
+            </div>
+          </div>
+          <div className="text-sm text-slate-500">© 2026 Restone.bg</div>
+        </div>
       </footer>
     </div>
   );
