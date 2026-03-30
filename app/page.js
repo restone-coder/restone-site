@@ -471,6 +471,36 @@ export default function RestonePage() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-7xl px-6 py-20">
+        <div className="grid items-center gap-12 lg:grid-cols-2">
+          <div>
+            <SectionTitle
+              eyebrow="Мобилно приложение"
+              title="Собствено мобилно приложение за ресторанта ти"
+              text="Клиентите поръчват директно от твоето приложение — без посредници и без комисионни."
+            />
+
+            <div className="mt-6 space-y-3 text-[#5F5573]">
+              <div>✅ Брандирано приложение за iOS и Android</div>
+              <div>✅ По-бързи и лесни поръчки</div>
+              <div>✅ Повече повторни поръчки от лоялни клиенти</div>
+              <div>✅ Push известия и директна връзка с клиента</div>
+              <div>✅ По-висока стойност на поръчките</div>
+            </div>
+
+            <Button href="#contact" className="mt-8">Заяви демо</Button>
+          </div>
+
+          <div>
+            <img
+              src="/app.png"
+              alt="Собствено мобилно приложение за ресторант"
+              className="w-full rounded-[28px] shadow-xl"
+            />
+          </div>
+        </div>
+      </section>
+
       <section id="products" className="mx-auto max-w-7xl px-6 py-20">
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
