@@ -14,8 +14,8 @@ function Button({
     "inline-flex items-center justify-center rounded-2xl px-6 py-3 text-sm font-semibold transition duration-200";
   const styles =
     variant === "secondary"
-      ? "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
-      : "bg-violet-600 text-white shadow-lg shadow-violet-200 hover:bg-violet-700";
+      ? "border border-[#E9D8F7] bg-white text-[#5F5573] hover:bg-[#F9F2FF]"
+      : "bg-[#BF00FF] text-white shadow-lg shadow-fuchsia-200 hover:bg-[#A000D6]";
 
   if (href) {
     return (
@@ -39,7 +39,7 @@ function Button({
 function Card({ children, className = "" }) {
   return (
     <div
-      className={`rounded-[28px] border border-slate-200 bg-white shadow-sm ${className}`}
+      className={`rounded-[28px] border border-[#E9D8F7] bg-white shadow-sm ${className}`}
     >
       {children}
     </div>
@@ -50,15 +50,15 @@ function SectionTitle({ eyebrow, title, text, center = false }) {
   return (
     <div className={center ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}>
       {eyebrow ? (
-        <div className="text-sm font-semibold uppercase tracking-[0.22em] text-violet-600">
+        <div className="text-sm font-semibold uppercase tracking-[0.22em] text-[#BF00FF]">
           {eyebrow}
         </div>
       ) : null}
-      <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+      <h2 className="mt-3 text-3xl font-bold tracking-tight text-[#1F1230] sm:text-4xl">
         {title}
       </h2>
       {text ? (
-        <p className="mt-4 text-base leading-8 text-slate-600">{text}</p>
+        <p className="mt-4 text-base leading-8 text-[#5F5573]">{text}</p>
       ) : null}
     </div>
   );
@@ -67,38 +67,38 @@ function SectionTitle({ eyebrow, title, text, center = false }) {
 function PhoneMockup({ compact = false, label = "App Preview" }) {
   return (
     <div className={`relative mx-auto ${compact ? "w-[220px]" : "w-[310px]"}`}>
-      <div className="rounded-[42px] border border-violet-100 bg-[#101114] p-2 shadow-[0_30px_80px_rgba(76,29,149,0.25)]">
+      <div className="rounded-[42px] border border-[#E9D8F7] bg-[#101114] p-2 shadow-[0_30px_80px_rgba(191,0,255,0.25)]">
         <div
           className={`relative overflow-hidden rounded-[34px] bg-white ${
             compact ? "h-[440px]" : "h-[620px]"
           }`}
         >
-          <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-r from-violet-600 via-fuchsia-500 to-orange-400" />
+          <div className="absolute inset-x-0 top-0 h-28 bg-[linear-gradient(135deg,#BF00FF_0%,#D84DFF_55%,#FF9A3D_100%)]" />
           <div className="absolute left-1/2 top-3 h-6 w-28 -translate-x-1/2 rounded-full bg-black/90" />
 
           <div className="relative z-10 px-5 pt-16">
-            <div className="rounded-3xl bg-white/95 p-4 shadow-sm ring-1 ring-slate-100">
-              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-violet-600">
+            <div className="rounded-3xl bg-white/95 p-4 shadow-sm ring-1 ring-[#F4E7FF]">
+              <div className="text-xs font-semibold uppercase tracking-[0.2em] text-[#BF00FF]">
                 Restone App
               </div>
-              <div className="mt-2 text-xl font-bold text-slate-900">
+              <div className="mt-2 text-xl font-bold text-[#1F1230]">
                 {label}
               </div>
-              <div className="mt-1 text-sm text-slate-500">
+              <div className="mt-1 text-sm text-[#8D84A3]">
                 Fast ordering experience for your restaurant.
               </div>
             </div>
 
             <div className="mt-5 grid grid-cols-2 gap-3">
-              <div className="rounded-2xl bg-violet-50 p-4">
-                <div className="text-xs text-slate-500">Today</div>
-                <div className="mt-1 text-lg font-bold text-slate-900">
+              <div className="rounded-2xl bg-[#F9F2FF] p-4">
+                <div className="text-xs text-[#8D84A3]">Today</div>
+                <div className="mt-1 text-lg font-bold text-[#1F1230]">
                   24 orders
                 </div>
               </div>
-              <div className="rounded-2xl bg-orange-50 p-4">
-                <div className="text-xs text-slate-500">Revenue</div>
-                <div className="mt-1 text-lg font-bold text-slate-900">
+              <div className="rounded-2xl bg-[#FFF1E3] p-4">
+                <div className="text-xs text-[#8D84A3]">Revenue</div>
+                <div className="mt-1 text-lg font-bold text-[#1F1230]">
                   €184
                 </div>
               </div>
@@ -112,15 +112,15 @@ function PhoneMockup({ compact = false, label = "App Preview" }) {
               ].map((item) => (
                 <div
                   key={item.name}
-                  className="flex items-center justify-between rounded-2xl border border-slate-100 bg-white p-4 shadow-sm"
+                  className="flex items-center justify-between rounded-2xl border border-[#F4E7FF] bg-white p-4 shadow-sm"
                 >
                   <div>
-                    <div className="font-semibold text-slate-900">
+                    <div className="font-semibold text-[#1F1230]">
                       {item.name}
                     </div>
-                    <div className="text-sm text-slate-500">Direct order</div>
+                    <div className="text-sm text-[#8D84A3]">Direct order</div>
                   </div>
-                  <div className="rounded-xl bg-slate-100 px-3 py-1 text-sm font-semibold text-slate-700">
+                  <div className="rounded-xl bg-[#F9F2FF] px-3 py-1 text-sm font-semibold text-[#5F5573]">
                     {item.price}
                   </div>
                 </div>
@@ -136,7 +136,7 @@ function PhoneMockup({ compact = false, label = "App Preview" }) {
 function FloatingBadge({ children, className = "" }) {
   return (
     <div
-      className={`rounded-2xl border border-white/70 bg-white/95 px-4 py-3 text-sm font-semibold text-slate-800 shadow-xl backdrop-blur ${className}`}
+      className={`rounded-2xl border border-white/70 bg-white/95 px-4 py-3 text-sm font-semibold text-[#1F1230] shadow-xl backdrop-blur ${className}`}
     >
       {children}
     </div>
@@ -146,11 +146,11 @@ function FloatingBadge({ children, className = "" }) {
 function FeatureCard({ emoji, title, text }) {
   return (
     <Card className="p-6">
-      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-100 to-fuchsia-100 text-2xl">
+      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,#F9F2FF_0%,#F4E7FF_100%)] text-2xl">
         {emoji}
       </div>
-      <h3 className="mt-4 text-lg font-bold text-slate-900">{title}</h3>
-      <p className="mt-2 text-sm leading-7 text-slate-600">{text}</p>
+      <h3 className="mt-4 text-lg font-bold text-[#1F1230]">{title}</h3>
+      <p className="mt-2 text-sm leading-7 text-[#5F5573]">{text}</p>
     </Card>
   );
 }
@@ -160,32 +160,34 @@ function PricingCard({ name, price, subtitle, features, featured = false }) {
     <Card
       className={`p-8 ${
         featured
-          ? "border-violet-300 bg-gradient-to-b from-violet-50 to-white shadow-violet-100"
+          ? "border-[#D9C2EE] bg-[linear-gradient(180deg,#F9F2FF_0%,#FFFFFF_100%)] shadow-fuchsia-100"
           : ""
       }`}
     >
       <div className="flex items-start justify-between gap-4">
         <div>
-          <div className="text-xl font-bold text-slate-900">{name}</div>
-          <div className="mt-2 text-4xl font-extrabold tracking-tight text-violet-700">
+          <div className="text-xl font-bold text-[#1F1230]">{name}</div>
+          <div className="mt-2 text-4xl font-extrabold tracking-tight text-[#BF00FF]">
             {price}
           </div>
-          <div className="mt-2 text-sm text-slate-500">{subtitle}</div>
+          <div className="mt-2 text-sm text-[#8D84A3]">{subtitle}</div>
         </div>
         {featured ? (
-          <div className="rounded-full bg-violet-600 px-3 py-1 text-xs font-semibold text-white">
+          <div className="rounded-full bg-[#BF00FF] px-3 py-1 text-xs font-semibold text-white">
             Най-популярен
           </div>
         ) : null}
       </div>
+
       <div className="mt-6 space-y-3">
         {features.map((item) => (
-          <div key={item} className="flex items-start gap-3 text-sm text-slate-700">
+          <div key={item} className="flex items-start gap-3 text-sm text-[#5F5573]">
             <span className="mt-0.5">✅</span>
             <span>{item}</span>
           </div>
         ))}
       </div>
+
       <Button href="#contact" className="mt-8 w-full justify-center">
         Избери план
       </Button>
@@ -195,17 +197,17 @@ function PricingCard({ name, price, subtitle, features, featured = false }) {
 
 function FaqItem({ question, answer, open, onClick }) {
   return (
-    <div className="rounded-[24px] border border-slate-200 bg-white shadow-sm">
+    <div className="rounded-[24px] border border-[#E9D8F7] bg-white shadow-sm">
       <button
         type="button"
         onClick={onClick}
         className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
       >
-        <span className="text-base font-semibold text-slate-900">
+        <span className="text-base font-semibold text-[#1F1230]">
           {question}
         </span>
         <span
-          className={`text-lg text-violet-600 transition ${
+          className={`text-lg text-[#BF00FF] transition ${
             open ? "rotate-180" : ""
           }`}
         >
@@ -213,7 +215,7 @@ function FaqItem({ question, answer, open, onClick }) {
         </span>
       </button>
       {open ? (
-        <div className="px-6 pb-6 text-sm leading-7 text-slate-600">
+        <div className="px-6 pb-6 text-sm leading-7 text-[#5F5573]">
           {answer}
         </div>
       ) : null}
@@ -252,9 +254,9 @@ function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-[28px] bg-gradient-to-br from-violet-50 via-fuchsia-50 to-orange-50 p-6 sm:p-7"
+      className="rounded-[28px] bg-[linear-gradient(135deg,#F9F2FF_0%,#FFF6EF_100%)] p-6 sm:p-7"
     >
-      <div className="text-xl font-bold text-slate-900">
+      <div className="text-xl font-bold text-[#1F1230]">
         Заяви безплатна консултация
       </div>
 
@@ -264,21 +266,21 @@ function ContactForm() {
           value={form.name}
           onChange={handleChange}
           placeholder="Име на ресторант"
-          className="w-full rounded-2xl border border-white bg-white px-4 py-3 text-sm text-slate-700 shadow-sm outline-none placeholder:text-slate-400"
+          className="w-full rounded-2xl border border-white bg-white px-4 py-3 text-sm text-[#1F1230] shadow-sm outline-none placeholder:text-[#8D84A3]"
         />
         <input
           name="email"
           value={form.email}
           onChange={handleChange}
           placeholder="Имейл"
-          className="w-full rounded-2xl border border-white bg-white px-4 py-3 text-sm text-slate-700 shadow-sm outline-none placeholder:text-slate-400"
+          className="w-full rounded-2xl border border-white bg-white px-4 py-3 text-sm text-[#1F1230] shadow-sm outline-none placeholder:text-[#8D84A3]"
         />
         <input
           name="phone"
           value={form.phone}
           onChange={handleChange}
           placeholder="Телефон"
-          className="w-full rounded-2xl border border-white bg-white px-4 py-3 text-sm text-slate-700 shadow-sm outline-none placeholder:text-slate-400"
+          className="w-full rounded-2xl border border-white bg-white px-4 py-3 text-sm text-[#1F1230] shadow-sm outline-none placeholder:text-[#8D84A3]"
         />
         <textarea
           name="message"
@@ -286,7 +288,7 @@ function ContactForm() {
           onChange={handleChange}
           rows={4}
           placeholder="С какво можем да помогнем?"
-          className="w-full rounded-2xl border border-white bg-white px-4 py-3 text-sm text-slate-700 shadow-sm outline-none placeholder:text-slate-400"
+          className="w-full rounded-2xl border border-white bg-white px-4 py-3 text-sm text-[#1F1230] shadow-sm outline-none placeholder:text-[#8D84A3]"
         />
       </div>
 
@@ -335,17 +337,17 @@ function AdminView({ onBack }) {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-[#FAF7FD]">
       <div className="mx-auto max-w-7xl px-6 py-10">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <div className="text-sm font-semibold uppercase tracking-[0.22em] text-violet-600">
+            <div className="text-sm font-semibold uppercase tracking-[0.22em] text-[#BF00FF]">
               Restone Admin
             </div>
-            <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900">
+            <h1 className="mt-2 text-3xl font-bold tracking-tight text-[#1F1230]">
               Dashboard
             </h1>
-            <p className="mt-2 text-slate-500">
+            <p className="mt-2 text-[#8D84A3]">
               Управление на запитвания, клиенти и плащания.
             </p>
           </div>
@@ -362,8 +364,8 @@ function AdminView({ onBack }) {
             { label: "Месечен приход", value: "€1,842" },
           ].map((item) => (
             <Card key={item.label} className="p-6">
-              <div className="text-sm text-slate-500">{item.label}</div>
-              <div className="mt-3 text-3xl font-extrabold text-slate-900">
+              <div className="text-sm text-[#8D84A3]">{item.label}</div>
+              <div className="mt-3 text-3xl font-extrabold text-[#1F1230]">
                 {item.value}
               </div>
             </Card>
@@ -380,7 +382,7 @@ function AdminView({ onBack }) {
               key={value}
               onClick={() => setTab(value)}
               className={`rounded-xl px-4 py-2 text-sm font-medium ${
-                tab === value ? "bg-slate-100 text-slate-900" : "text-slate-600"
+                tab === value ? "bg-[#F9F2FF] text-[#1F1230]" : "text-[#5F5573]"
               }`}
             >
               {label}
@@ -392,7 +394,7 @@ function AdminView({ onBack }) {
           <Card className="mt-6 overflow-hidden">
             <div className="overflow-x-auto">
               <table className="min-w-full text-left text-sm">
-                <thead className="bg-slate-50 text-slate-500">
+                <thead className="bg-[#FAF7FD] text-[#8D84A3]">
                   <tr>
                     <th className="px-6 py-4">Ресторант</th>
                     <th className="px-6 py-4">Контакт</th>
@@ -404,17 +406,17 @@ function AdminView({ onBack }) {
                   {leads.map((lead) => (
                     <tr
                       key={lead.restaurant}
-                      className="border-t border-slate-100"
+                      className="border-t border-[#F4E7FF]"
                     >
-                      <td className="px-6 py-4 font-semibold text-slate-900">
+                      <td className="px-6 py-4 font-semibold text-[#1F1230]">
                         {lead.restaurant}
                       </td>
-                      <td className="px-6 py-4 text-slate-600">
+                      <td className="px-6 py-4 text-[#5F5573]">
                         {lead.contact}
                       </td>
-                      <td className="px-6 py-4 text-slate-600">{lead.plan}</td>
+                      <td className="px-6 py-4 text-[#5F5573]">{lead.plan}</td>
                       <td className="px-6 py-4">
-                        <span className="rounded-full bg-violet-100 px-3 py-1 text-xs font-semibold text-violet-700">
+                        <span className="rounded-full bg-[#F4E7FF] px-3 py-1 text-xs font-semibold text-[#BF00FF]">
                           {lead.status}
                         </span>
                       </td>
@@ -434,8 +436,8 @@ function AdminView({ onBack }) {
               "Green Bowl — Basic",
             ].map((client) => (
               <Card key={client} className="p-6">
-                <div className="text-lg font-bold text-slate-900">{client}</div>
-                <div className="mt-2 text-sm text-slate-500">
+                <div className="text-lg font-bold text-[#1F1230]">{client}</div>
+                <div className="mt-2 text-sm text-[#8D84A3]">
                   Активен клиент с onboarding статус.
                 </div>
               </Card>
@@ -451,8 +453,8 @@ function AdminView({ onBack }) {
               { label: "Платени абонаменти", value: "14" },
             ].map((item) => (
               <Card key={item.label} className="p-6">
-                <div className="text-sm text-slate-500">{item.label}</div>
-                <div className="mt-2 text-3xl font-extrabold text-slate-900">
+                <div className="text-sm text-[#8D84A3]">{item.label}</div>
+                <div className="mt-2 text-3xl font-extrabold text-[#1F1230]">
                   {item.value}
                 </div>
               </Card>
@@ -523,42 +525,42 @@ export default function RestoneApp() {
   }
 
   return (
-    <div id="top" className="min-h-screen bg-white text-slate-900">
+    <div id="top" className="min-h-screen bg-white text-[#1F1230]">
       <div className="fixed right-4 top-4 z-50 flex items-center gap-2 rounded-2xl border border-white/70 bg-white/90 p-2 shadow-xl backdrop-blur">
-        <button className="rounded-xl bg-slate-100 px-3 py-2 text-sm font-semibold text-slate-700">
+        <button className="rounded-xl bg-[#F9F2FF] px-3 py-2 text-sm font-semibold text-[#5F5573]">
           BG
         </button>
-        <button className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-900 shadow">
+        <button className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#1F1230] shadow">
           🌐 Сайт
         </button>
         <button
           onClick={() => setView("admin")}
-          className="rounded-xl px-4 py-2 text-sm font-semibold text-slate-600"
+          className="rounded-xl px-4 py-2 text-sm font-semibold text-[#5F5573]"
         >
           ⚙️ Админ
         </button>
       </div>
 
-      <header className="sticky top-0 z-40 border-b border-violet-100 bg-white/80 backdrop-blur-xl">
+      <header className="sticky top-0 z-40 border-b border-[#F4E7FF] bg-white/80 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <div className="text-2xl font-extrabold tracking-tight text-violet-700">
+          <div className="text-2xl font-extrabold tracking-tight text-[#BF00FF]">
             restone.bg
           </div>
 
-          <nav className="hidden items-center gap-8 text-sm text-slate-600 lg:flex">
-            <a href="#features" className="hover:text-violet-600">
+          <nav className="hidden items-center gap-8 text-sm text-[#5F5573] lg:flex">
+            <a href="#features" className="hover:text-[#BF00FF]">
               Функции
             </a>
-            <a href="#products" className="hover:text-violet-600">
+            <a href="#products" className="hover:text-[#BF00FF]">
               Продукти
             </a>
-            <a href="#pricing" className="hover:text-violet-600">
+            <a href="#pricing" className="hover:text-[#BF00FF]">
               Цени
             </a>
-            <a href="#faq" className="hover:text-violet-600">
+            <a href="#faq" className="hover:text-[#BF00FF]">
               Въпроси
             </a>
-            <a href="#contact" className="hover:text-violet-600">
+            <a href="#contact" className="hover:text-[#BF00FF]">
               Контакт
             </a>
           </nav>
@@ -567,21 +569,21 @@ export default function RestoneApp() {
         </div>
       </header>
 
-      <section className="relative overflow-hidden bg-gradient-to-br from-white via-violet-50 to-fuchsia-50">
+      <section className="relative overflow-hidden bg-[linear-gradient(180deg,#FFFFFF_0%,#F9F2FF_100%)]">
         <div className="mx-auto grid max-w-7xl items-center gap-14 px-6 py-20 lg:grid-cols-2 lg:py-28">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white px-4 py-2 text-sm font-semibold text-violet-700 shadow-sm">
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#E9D8F7] bg-white px-4 py-2 text-sm font-semibold text-[#BF00FF] shadow-sm">
               ✨ Онлайн поръчки за ресторанти без посредници
             </div>
 
             <h1 className="mt-6 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
               Онлайн поръчки без комисионни
-              <span className="block bg-gradient-to-r from-violet-700 via-fuchsia-600 to-orange-400 bg-clip-text text-transparent">
+              <span className="block bg-[linear-gradient(135deg,#BF00FF_0%,#D84DFF_55%,#FF9A3D_100%)] bg-clip-text text-transparent">
                 собствено приложение и уебсайт за твоето заведение
               </span>
             </h1>
 
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-[#5F5573]">
               Restone помага на ресторанти да приемат директни поръчки от
               собствен сайт и мобилно приложение, без комисионни към външни
               delivery платформи.
@@ -599,7 +601,7 @@ export default function RestoneApp() {
                   className="flex items-start gap-3 rounded-2xl border border-white/70 bg-white/80 p-4 shadow-sm"
                 >
                   <span className="mt-0.5">✅</span>
-                  <span className="text-sm text-slate-700">{item}</span>
+                  <span className="text-sm text-[#5F5573]">{item}</span>
                 </div>
               ))}
             </div>
@@ -650,10 +652,10 @@ export default function RestoneApp() {
             "Визия, създадена за поръчки",
           ].map((title, index) => (
             <Card key={index} className="overflow-hidden">
-              <div className="relative h-80 bg-gradient-to-br from-violet-100 via-white to-orange-100">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(139,92,246,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(251,146,60,0.18),transparent_30%)]" />
+              <div className="relative h-80 bg-[linear-gradient(135deg,#F9F2FF_0%,#FFFFFF_55%,#FFF1E3_100%)]">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(191,0,255,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(255,154,61,0.18),transparent_30%)]" />
                 <div className="absolute inset-x-0 bottom-0 p-5">
-                  <div className="rounded-2xl border border-white/40 bg-white/80 px-4 py-3 text-sm font-semibold text-slate-900 backdrop-blur">
+                  <div className="rounded-2xl border border-white/40 bg-white/80 px-4 py-3 text-sm font-semibold text-[#1F1230] backdrop-blur">
                     {title}
                   </div>
                 </div>
@@ -670,7 +672,7 @@ export default function RestoneApp() {
           text="Ние ще ти помогнем да стартираш гладко, без излишни усложнения и без риск в началото."
         />
 
-        <div className="mt-8 space-y-5 text-lg leading-8 text-slate-600">
+        <div className="mt-8 space-y-5 text-lg leading-8 text-[#5F5573]">
           {[
             "Нямаш време? Ние ще настроим всичко вместо теб — безплатна начална настройка.",
             "7 дни поддръжка чрез чат и имейл — преди и след старта.",
@@ -748,8 +750,8 @@ export default function RestoneApp() {
                   onClick={() => setProductTab(i)}
                   className={`w-full rounded-xl px-4 py-3 text-left text-sm font-semibold transition ${
                     productTab === i
-                      ? "bg-violet-600 text-white shadow-sm"
-                      : "bg-white text-slate-700 hover:bg-violet-50"
+                      ? "bg-[#BF00FF] text-white shadow-sm"
+                      : "bg-white text-[#5F5573] hover:bg-[#F9F2FF]"
                   }`}
                 >
                   {tab.label}
@@ -758,15 +760,15 @@ export default function RestoneApp() {
             </div>
           </div>
 
-          <Card className="border-violet-100 p-8">
-            <h3 className="text-2xl font-bold text-slate-900">
+          <Card className="border-[#E9D8F7] p-8">
+            <h3 className="text-2xl font-bold text-[#1F1230]">
               {productTabs[productTab].title}
             </h3>
-            <p className="mt-4 text-slate-600">
+            <p className="mt-4 text-[#5F5573]">
               {productTabs[productTab].text}
             </p>
 
-            <div className="mt-6 rounded-[28px] bg-gradient-to-br from-violet-50 via-pink-50 to-orange-50 p-5">
+            <div className="mt-6 rounded-[28px] bg-[linear-gradient(135deg,#F9F2FF_0%,#FFF6EF_100%)] p-5">
               <PhoneMockup compact label={productTabs[productTab].label} />
             </div>
 
@@ -774,7 +776,7 @@ export default function RestoneApp() {
               {productTabs[productTab].bullets.map((bullet) => (
                 <div
                   key={bullet}
-                  className="flex items-center gap-3 text-sm text-slate-700"
+                  className="flex items-center gap-3 text-sm text-[#5F5573]"
                 >
                   <span>✅</span>
                   <span>{bullet}</span>
@@ -794,10 +796,10 @@ export default function RestoneApp() {
           ].map((quote, index) => (
             <Card key={index} className="p-6">
               <div className="text-lg">⭐</div>
-              <p className="mt-4 text-lg leading-8 text-slate-700">
+              <p className="mt-4 text-lg leading-8 text-[#5F5573]">
                 “{quote}”
               </p>
-              <div className="mt-4 text-sm text-slate-500">Ресторантьор</div>
+              <div className="mt-4 text-sm text-[#8D84A3]">Ресторантьор</div>
             </Card>
           ))}
         </div>
@@ -869,7 +871,7 @@ export default function RestoneApp() {
       </section>
 
       <section id="contact" className="mx-auto max-w-7xl px-6 pb-24 pt-12">
-        <div className="rounded-[32px] border border-violet-100 bg-white p-8 shadow-xl lg:p-10">
+        <div className="rounded-[32px] border border-[#E9D8F7] bg-white p-8 shadow-xl lg:p-10">
           <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <SectionTitle
               eyebrow="Контакт"
@@ -881,17 +883,17 @@ export default function RestoneApp() {
         </div>
       </section>
 
-      <footer className="border-t border-slate-100 px-6 py-10">
+      <footer className="border-t border-[#F4E7FF] px-6 py-10">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <div className="text-xl font-extrabold text-violet-700">
+            <div className="text-xl font-extrabold text-[#BF00FF]">
               restone.bg
             </div>
-            <div className="mt-1 text-sm text-slate-500">
+            <div className="mt-1 text-sm text-[#8D84A3]">
               Commission-free ordering website + restaurant app
             </div>
           </div>
-          <div className="text-sm text-slate-500">© 2026 Restone.bg</div>
+          <div className="text-sm text-[#8D84A3]">© 2026 Restone.bg</div>
         </div>
       </footer>
     </div>
