@@ -4,8 +4,8 @@ import React, { useMemo, useState } from "react";
 
 function Button({
   children,
-  onClick,
   href,
+  onClick,
   variant = "primary",
   className = "",
   type = "button",
@@ -64,15 +64,56 @@ function SectionTitle({ eyebrow, title, text, center = false }) {
   );
 }
 
-function PhoneMockup({ compact = false, label = "App Preview" }) {
+function ProductMegaMenu({ products }) {
   return (
-    <div className={`relative mx-auto ${compact ? "w-[220px]" : "w-[310px]"}`}>
+    <div className="absolute left-1/2 top-full z-50 hidden w-[980px] -translate-x-1/2 pt-4 group-hover:block">
+      <div className="overflow-hidden rounded-[28px] border border-[#E9D8F7] bg-white shadow-[0_30px_90px_rgba(31,18,48,0.12)]">
+        <div className="grid grid-cols-3 gap-0">
+          {products.map((group) => (
+            <div
+              key={group.title}
+              className="border-r border-[#F4E7FF] p-6 last:border-r-0"
+            >
+              <div className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-[#BF00FF]">
+                {group.title}
+              </div>
+
+              <div className="space-y-4">
+                {group.items.map((item) => (
+                  <a
+                    key={item.title}
+                    href={item.href}
+                    className="block rounded-2xl p-3 transition hover:bg-[#F9F2FF]"
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,#F9F2FF_0%,#FFF1E3_100%)] text-xl">
+                        {item.icon}
+                      </div>
+                      <div>
+                        <div className="font-semibold text-[#1F1230]">
+                          {item.title}
+                        </div>
+                        <div className="mt-1 text-sm leading-6 text-[#5F5573]">
+                          {item.text}
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PhoneMockup() {
+  return (
+    <div className="relative mx-auto w-[310px]">
       <div className="rounded-[42px] border border-[#E9D8F7] bg-[#101114] p-2 shadow-[0_30px_80px_rgba(191,0,255,0.25)]">
-        <div
-          className={`relative overflow-hidden rounded-[34px] bg-white ${
-            compact ? "h-[440px]" : "h-[620px]"
-          }`}
-        >
+        <div className="relative h-[620px] overflow-hidden rounded-[34px] bg-white">
           <div className="absolute inset-x-0 top-0 h-28 bg-[linear-gradient(135deg,#BF00FF_0%,#D84DFF_55%,#FF9A3D_100%)]" />
           <div className="absolute left-1/2 top-3 h-6 w-28 -translate-x-1/2 rounded-full bg-black/90" />
 
@@ -82,10 +123,10 @@ function PhoneMockup({ compact = false, label = "App Preview" }) {
                 Restone App
               </div>
               <div className="mt-2 text-xl font-bold text-[#1F1230]">
-                {label}
+                Restaurant Ordering
               </div>
               <div className="mt-1 text-sm text-[#8D84A3]">
-                Fast ordering experience for your restaurant.
+                Direct orders, promotions and loyalty in one experience.
               </div>
             </div>
 
@@ -126,6 +167,13 @@ function PhoneMockup({ compact = false, label = "App Preview" }) {
                 </div>
               ))}
             </div>
+
+            <div className="mt-5 rounded-2xl bg-[linear-gradient(135deg,#BF00FF_0%,#D84DFF_100%)] p-4 text-white">
+              <div className="text-xs uppercase tracking-[0.2em] text-white/70">
+                Promo
+              </div>
+              <div className="mt-1 text-lg font-bold">-20% on mobile orders</div>
+            </div>
           </div>
         </div>
       </div>
@@ -146,7 +194,7 @@ function FloatingBadge({ children, className = "" }) {
 function FeatureCard({ emoji, title, text }) {
   return (
     <Card className="p-6">
-      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,#F9F2FF_0%,#F4E7FF_100%)] text-2xl">
+      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,#F9F2FF_0%,#FFF1E3_100%)] text-2xl">
         {emoji}
       </div>
       <h3 className="mt-4 text-lg font-bold text-[#1F1230]">{title}</h3>
@@ -312,164 +360,83 @@ function ContactForm() {
   );
 }
 
-function AdminView({ onBack }) {
-  const [tab, setTab] = useState("leads");
-
-  const leads = [
-    {
-      restaurant: "Burger House Plovdiv",
-      contact: "nikolay@burgerhouse.bg",
-      plan: "Standard",
-      status: "Ново",
-    },
-    {
-      restaurant: "Pizza Roma",
-      contact: "maria@pizzaroma.bg",
-      plan: "Premium",
-      status: "Контактуван",
-    },
-    {
-      restaurant: "Green Bowl",
-      contact: "office@greenbowl.bg",
-      plan: "Basic",
-      status: "Демо",
-    },
-  ];
-
-  return (
-    <div className="min-h-screen bg-[#FAF7FD]">
-      <div className="mx-auto max-w-7xl px-6 py-10">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <div className="text-sm font-semibold uppercase tracking-[0.22em] text-[#BF00FF]">
-              Restone Admin
-            </div>
-            <h1 className="mt-2 text-3xl font-bold tracking-tight text-[#1F1230]">
-              Dashboard
-            </h1>
-            <p className="mt-2 text-[#8D84A3]">
-              Управление на запитвания, клиенти и плащания.
-            </p>
-          </div>
-          <Button onClick={onBack} variant="secondary">
-            Назад към сайта
-          </Button>
-        </div>
-
-        <div className="mt-8 grid gap-5 md:grid-cols-4">
-          {[
-            { label: "Нови запитвания", value: "24" },
-            { label: "Насрочени демота", value: "11" },
-            { label: "Активни клиенти", value: "18" },
-            { label: "Месечен приход", value: "€1,842" },
-          ].map((item) => (
-            <Card key={item.label} className="p-6">
-              <div className="text-sm text-[#8D84A3]">{item.label}</div>
-              <div className="mt-3 text-3xl font-extrabold text-[#1F1230]">
-                {item.value}
-              </div>
-            </Card>
-          ))}
-        </div>
-
-        <div className="mt-8 inline-flex rounded-2xl bg-white p-1 shadow-sm">
-          {[
-            ["leads", "Lead-ове"],
-            ["clients", "Клиенти"],
-            ["billing", "Плащания"],
-          ].map(([value, label]) => (
-            <button
-              key={value}
-              onClick={() => setTab(value)}
-              className={`rounded-xl px-4 py-2 text-sm font-medium ${
-                tab === value ? "bg-[#F9F2FF] text-[#1F1230]" : "text-[#5F5573]"
-              }`}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-
-        {tab === "leads" ? (
-          <Card className="mt-6 overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="min-w-full text-left text-sm">
-                <thead className="bg-[#FAF7FD] text-[#8D84A3]">
-                  <tr>
-                    <th className="px-6 py-4">Ресторант</th>
-                    <th className="px-6 py-4">Контакт</th>
-                    <th className="px-6 py-4">План</th>
-                    <th className="px-6 py-4">Статус</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {leads.map((lead) => (
-                    <tr
-                      key={lead.restaurant}
-                      className="border-t border-[#F4E7FF]"
-                    >
-                      <td className="px-6 py-4 font-semibold text-[#1F1230]">
-                        {lead.restaurant}
-                      </td>
-                      <td className="px-6 py-4 text-[#5F5573]">
-                        {lead.contact}
-                      </td>
-                      <td className="px-6 py-4 text-[#5F5573]">{lead.plan}</td>
-                      <td className="px-6 py-4">
-                        <span className="rounded-full bg-[#F4E7FF] px-3 py-1 text-xs font-semibold text-[#BF00FF]">
-                          {lead.status}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </Card>
-        ) : null}
-
-        {tab === "clients" ? (
-          <div className="mt-6 grid gap-5 md:grid-cols-3">
-            {[
-              "Pizza Roma — Premium",
-              "Burger House — Standard",
-              "Green Bowl — Basic",
-            ].map((client) => (
-              <Card key={client} className="p-6">
-                <div className="text-lg font-bold text-[#1F1230]">{client}</div>
-                <div className="mt-2 text-sm text-[#8D84A3]">
-                  Активен клиент с onboarding статус.
-                </div>
-              </Card>
-            ))}
-          </div>
-        ) : null}
-
-        {tab === "billing" ? (
-          <div className="mt-6 grid gap-5 md:grid-cols-3">
-            {[
-              { label: "MRR", value: "€1,842" },
-              { label: "Чакащи плащания", value: "4" },
-              { label: "Платени абонаменти", value: "14" },
-            ].map((item) => (
-              <Card key={item.label} className="p-6">
-                <div className="text-sm text-[#8D84A3]">{item.label}</div>
-                <div className="mt-2 text-3xl font-extrabold text-[#1F1230]">
-                  {item.value}
-                </div>
-              </Card>
-            ))}
-          </div>
-        ) : null}
-      </div>
-    </div>
-  );
-}
-
-export default function RestoneApp() {
-  const [view, setView] = useState("landing");
-  const [productTab, setProductTab] = useState(0);
+export default function RestonePage() {
   const [faqOpen, setFaqOpen] = useState(0);
+
+  const megaMenuColumns = useMemo(
+    () => [
+      {
+        title: "Популярни",
+        items: [
+          {
+            icon: "🛒",
+            title: "Онлайн поръчки",
+            text: "Директни поръчки без комисионни от твоя сайт.",
+            href: "#products",
+          },
+          {
+            icon: "📱",
+            title: "Мобилно приложение",
+            text: "Брандирано приложение за iOS и Android.",
+            href: "#products",
+          },
+          {
+            icon: "🌐",
+            title: "Website Builder",
+            text: "Сайт за ресторанта с ordering flow и checkout.",
+            href: "#products",
+          },
+        ],
+      },
+      {
+        title: "Управление",
+        items: [
+          {
+            icon: "💳",
+            title: "Плащания",
+            text: "Фиксиран модел без комисионни върху всяка продажба.",
+            href: "#pricing",
+          },
+          {
+            icon: "📈",
+            title: "Маркетинг",
+            text: "Промоции, loyalty, кампании и upsell възможности.",
+            href: "#features",
+          },
+          {
+            icon: "👥",
+            title: "Клиентска база",
+            text: "Запази контрола върху клиентските данни и каналите.",
+            href: "#features",
+          },
+        ],
+      },
+      {
+        title: "Разрастване",
+        items: [
+          {
+            icon: "🏪",
+            title: "Много обекти",
+            text: "Подходящо за единични ресторанти и вериги.",
+            href: "#features",
+          },
+          {
+            icon: "🚚",
+            title: "Delivery & Pickup",
+            text: "Гъвкави потоци за доставка и вземане на място.",
+            href: "#how",
+          },
+          {
+            icon: "⚙️",
+            title: "Интеграции",
+            text: "Възможност за работа с вътрешни процеси и бъдещи модули.",
+            href: "#how",
+          },
+        ],
+      },
+    ],
+    []
+  );
 
   const productTabs = useMemo(
     () => [
@@ -477,71 +444,66 @@ export default function RestoneApp() {
         label: "Онлайн поръчки",
         title: "Директни поръчки от твоя бранд",
         text:
-          "Клиентите поръчват директно през твоя сайт и приложение, без marketplace комисионни и без посредници.",
-        bullets: ["0% комисионни", "Delivery и pickup", "Бърз checkout"],
+          "Клиентите поръчват директно през твоя сайт и приложение, без marketplace комисионни и без посредници. Това означава по-добър марж, по-силен бранд и по-голям контрол.",
+        bullets: [
+          "0% комисионни към delivery apps",
+          "Delivery и pickup потоци",
+          "Бърз checkout и ясен ordering experience",
+        ],
       },
       {
         label: "Уебсайт",
         title: "Сайт, който продава",
         text:
-          "Модерен ordering website с меню, категории, промоции и ясни CTA бутони за повече директни продажби.",
+          "Модерен ресторантски сайт с меню, категории, промоции, checkout и mobile-first преживяване. Всичко е създадено така, че да превръща посетителите в директни поръчки.",
         bullets: [
           "Мобилен first дизайн",
-          "Меню и добавки",
-          "Промоции и банери",
+          "Меню, добавки и промоции",
+          "Ясни call-to-action елементи",
         ],
       },
       {
         label: "Приложение",
-        title: "Собствен app за ресторанта",
+        title: "Собствено приложение за ресторанта",
         text:
-          "Силно брандирано приложение за по-бързи повторни поръчки и по-добра връзка с клиента.",
-        bullets: ["iOS + Android", "Push комуникация", "Loyalty потенциал"],
+          "Брандирано мобилно приложение за iOS и Android, създадено за повторни поръчки, по-висока лоялност и директна комуникация с клиентите.",
+        bullets: [
+          "iOS + Android присъствие",
+          "Push комуникация и кампании",
+          "По-лесни повторни поръчки",
+        ],
       },
     ],
     []
   );
+
+  const [productTab, setProductTab] = useState(0);
 
   const faqs = useMemo(
     () => [
       {
         q: "Има ли комисионна за поръчките?",
-        a: "Не. Restone е създадено за директни поръчки без marketplace комисионни към всяка продажба.",
+        a: "Не. Restone е създадено за директни поръчки без marketplace комисионни върху всяка продажба.",
       },
       {
         q: "Може ли ресторантът да има собствено приложение?",
-        a: "Да. В зависимост от плана приложението може да бъде add-on или включено в по-висок пакет.",
+        a: "Да. Можем да структурираме решение с брандирано приложение за iOS и Android.",
       },
       {
         q: "Подходящо ли е и за единични обекти, и за вериги?",
-        a: "Да. Подходящо е както за единични ресторанти, така и за по-активни обекти и вериги.",
+        a: "Да. Платформата е подходяща както за единични ресторанти, така и за по-активни обекти и вериги.",
+      },
+      {
+        q: "Колко бързо може да се стартира?",
+        a: "Началният старт може да бъде много бърз, а ние помагаме с onboarding, съдържание и настройка.",
       },
     ],
     []
   );
 
-  if (view === "admin") {
-    return <AdminView onBack={() => setView("landing")} />;
-  }
-
   return (
     <div id="top" className="min-h-screen bg-white text-[#1F1230]">
-      <div className="fixed right-4 top-4 z-50 flex items-center gap-2 rounded-2xl border border-white/70 bg-white/90 p-2 shadow-xl backdrop-blur">
-        <button className="rounded-xl bg-[#F9F2FF] px-3 py-2 text-sm font-semibold text-[#5F5573]">
-          BG
-        </button>
-        <button className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#1F1230] shadow">
-          🌐 Сайт
-        </button>
-        <button
-          onClick={() => setView("admin")}
-          className="rounded-xl px-4 py-2 text-sm font-semibold text-[#5F5573]"
-        >
-          ⚙️ Админ
-        </button>
-      </div>
-
-      <header className="sticky top-0 z-40 border-b border-[#F4E7FF] bg-white/80 backdrop-blur-xl">
+      <header className="sticky top-0 z-40 border-b border-[#F4E7FF] bg-white/85 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <div className="text-2xl font-extrabold tracking-tight text-[#BF00FF]">
             restone.bg
@@ -551,8 +513,17 @@ export default function RestoneApp() {
             <a href="#features" className="hover:text-[#BF00FF]">
               Функции
             </a>
-            <a href="#products" className="hover:text-[#BF00FF]">
-              Продукти
+
+            <div className="group relative">
+              <button className="flex items-center gap-2 hover:text-[#BF00FF]">
+                <span>Продукти</span>
+                <span>⌄</span>
+              </button>
+              <ProductMegaMenu products={megaMenuColumns} />
+            </div>
+
+            <a href="#how" className="hover:text-[#BF00FF]">
+              Как работи
             </a>
             <a href="#pricing" className="hover:text-[#BF00FF]">
               Цени
@@ -639,7 +610,7 @@ export default function RestoneApp() {
             <FloatingBadge className="absolute -left-10 bottom-10 hidden md:block">
               🌐 Ordering website
             </FloatingBadge>
-            <PhoneMockup label="Restaurant App" />
+            <PhoneMockup />
           </div>
         </div>
       </section>
@@ -665,11 +636,52 @@ export default function RestoneApp() {
         </div>
       </section>
 
+      <section className="mx-auto max-w-7xl px-6 py-16" id="benefits">
+        <SectionTitle
+          eyebrow="Ползи"
+          title="Защо ресторантът ти има нужда от собствен ordering канал"
+          text="По-ниски разходи, повече директни поръчки, по-силен контрол върху продажбите и клиентската база."
+        />
+
+        <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          <FeatureCard
+            emoji="💸"
+            title="По-ниски разходи"
+            text="Намаляваш зависимостта от външни платформи и пазиш по-голяма част от всяка продажба."
+          />
+          <FeatureCard
+            emoji="📦"
+            title="Повече директни поръчки"
+            text="Клиентите поръчват от твоя бранд, не от marketplace, където се състезаваш с всички."
+          />
+          <FeatureCard
+            emoji="🧠"
+            title="Контрол върху данните"
+            text="Запазваш връзката с клиента, историята на поръчките и маркетинг възможностите."
+          />
+          <FeatureCard
+            emoji="🕒"
+            title="24/7 приемане на поръчки"
+            text="Менюто и ordering flow-ът работят постоянно и правят поръчката лесна от всяко устройство."
+          />
+          <FeatureCard
+            emoji="🎨"
+            title="Брандирано преживяване"
+            text="Сайтът и приложението изглеждат като твоя продукт, а не като чужда платформа."
+          />
+          <FeatureCard
+            emoji="⚡"
+            title="Бързи промени"
+            text="Лесно обновяваш меню, промоции и наличности, когато имаш нужда."
+          />
+        </div>
+      </section>
+
       <section className="mx-auto max-w-5xl px-6 py-20">
         <SectionTitle
           eyebrow="Бърз старт. Нулев риск."
           title="Стартирай за минути"
-          text="Ние ще ти помогнем да стартираш гладко, без излишни усложнения и без риск в началото."
+          text="Помагаме ти да стартираш гладко, без излишни усложнения и без риск в началото."
         />
 
         <div className="mt-8 space-y-5 text-lg leading-8 text-[#5F5573]">
@@ -723,12 +735,12 @@ export default function RestoneApp() {
           <FeatureCard
             emoji="💳"
             title="Плащания и фактуриране"
-            text="Готово за абонаменти, checkout и бъдещо автоматизирано billing решение."
+            text="Фиксиран модел без комисионни върху всяка продажба и добра основа за billing."
           />
           <FeatureCard
             emoji="👥"
             title="Контрол върху клиента"
-            text="Запази клиентските данни, навици и канали за комуникация във вашата система."
+            text="Запази клиентските данни, навици и каналите за комуникация във вашата система."
           />
         </div>
       </section>
@@ -769,7 +781,7 @@ export default function RestoneApp() {
             </p>
 
             <div className="mt-6 rounded-[28px] bg-[linear-gradient(135deg,#F9F2FF_0%,#FFF6EF_100%)] p-5">
-              <PhoneMockup compact label={productTabs[productTab].label} />
+              <PhoneMockup />
             </div>
 
             <div className="mt-6 space-y-3">
@@ -787,8 +799,61 @@ export default function RestoneApp() {
         </div>
       </section>
 
+      <section id="how" className="mx-auto max-w-7xl px-6 py-20">
+        <SectionTitle
+          eyebrow="Как работи"
+          title="Как работи директното онлайн поръчване"
+          text="Ясен процес от старта до реалната печалба от директни продажби."
+          center
+        />
+
+        <div className="mt-10 grid gap-6 lg:grid-cols-4">
+          {[
+            {
+              step: "1",
+              title: "Стартираме ordering канала",
+              text: "Добавяме online ordering към съществуващия сайт или изграждаме нов restaurant website.",
+            },
+            {
+              step: "2",
+              title: "Клиентите поръчват директно",
+              text: "Поръчките идват през твоя собствен канал вместо през външни delivery apps.",
+            },
+            {
+              step: "3",
+              title: "Поръчката влиза в процес",
+              text: "Екипът получава поръчката и я обработва по избрания от теб workflow.",
+            },
+            {
+              step: "✓",
+              title: "Повече печалба от всяка поръчка",
+              text: "Получаваш повече директни поръчки и по-ниски разходи заради липсата на външни комисионни.",
+            },
+          ].map((item) => (
+            <Card key={item.title} className="p-6">
+              <div className="text-3xl font-extrabold text-[#BF00FF]">
+                {item.step}
+              </div>
+              <h3 className="mt-4 text-lg font-bold text-[#1F1230]">
+                {item.title}
+              </h3>
+              <p className="mt-2 text-sm leading-7 text-[#5F5573]">
+                {item.text}
+              </p>
+            </Card>
+          ))}
+        </div>
+      </section>
+
       <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid gap-5 lg:grid-cols-3">
+        <SectionTitle
+          eyebrow="Резултати"
+          title="Защо ресторантьорите избират директни поръчки"
+          text="Когато сайтът, приложението и ordering flow-ът са правилно изградени, клиентите се връщат по-често, а маржът ти е по-добър."
+          center
+        />
+
+        <div className="mt-10 grid gap-5 lg:grid-cols-3">
           {[
             "Поръчките вече идват директно през нашия сайт и задържаме повече от всяка продажба.",
             "Когато сайтът и приложението са брандирани правилно, клиентите се връщат много по-често.",
